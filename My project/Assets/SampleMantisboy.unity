@@ -275,7 +275,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 3fa963ca811b6b247a8de1ae66ef6b35, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -995,7 +995,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: e8fd642a3df2cd649961446c5f992ace, type: 3}
   m_Color: {r: 0.21207163, g: 0.745283, b: 0.11718281, a: 1}
   m_FlipX: 0
@@ -1256,6 +1256,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cabdca0188500b4292356acf75864e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 3
+  stoppingDistance: 4
+  nearDistance: 5
+  startTimeBtwShots: 1
+  shot: {fileID: 2111216324321268769, guid: 0feed8fdfb432564296aaf61bc951bdb, type: 3}
   health: 100
   deathEffect: {fileID: 100008, guid: 8f611da60097c85438a2947021f045cf, type: 3}
 --- !u!1 &1900433654

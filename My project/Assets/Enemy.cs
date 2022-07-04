@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     public Collider2D bodyCollider;
     public Transform player, firePoint2;
     public GameObject bullet;
+    public GameObject deathEffect;
 
      public void TakeDamage (int damage)
      {
@@ -35,9 +36,8 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (mustPatrol)
-        {
-            
+        if (mustPatrol == true)
+        { 
             Patrol();
         }
 
@@ -51,8 +51,8 @@ public class Enemy : MonoBehaviour
                 Flip();
             }
 
-            mustPatrol = false;
-            rb.velocity = Vector2.zero;
+           
+           
 
             if(canShoot)
 
@@ -66,7 +66,7 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (mustPatrol)
+        if (mustPatrol == true)
         {
             mustTurn = !Physics2D.OverlapCircle(groundCheckPos.position, 0.1f, groundLayer);
         }
@@ -84,10 +84,10 @@ public class Enemy : MonoBehaviour
 
     void Flip()
     {
-        mustPatrol = false;
+        
         transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
         walkSpeed *= -1;
-        mustPatrol = true;
+        mustTurn = false;
     }
 
     IEnumerator Shoot()
@@ -102,6 +102,7 @@ public class Enemy : MonoBehaviour
     }
     void Die()
     {
+        Instantiate(deathEffect, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }

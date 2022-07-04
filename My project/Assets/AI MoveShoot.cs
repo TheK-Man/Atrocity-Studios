@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class AIMoveShoot : MonoBehaviour
 {
-    public float walkSpeed, range, health, timeBTWShots, shootSpeed;
+    public float walkSpeed, range, timeBTWShots, shootSpeed;
     private float distToPlayer;
 
     public bool mustPatrol;
@@ -16,15 +16,6 @@ public class Enemy : MonoBehaviour
     public Collider2D bodyCollider;
     public Transform player, firePoint2;
     public GameObject bullet;
-
-     public void TakeDamage (int damage)
-     {
-      health -= damage;
-      if (health <= 0)
-      {
-        Die();
-      }
-     }
     // Start is called before the first frame update
     void Start()
     {
@@ -99,9 +90,5 @@ public class Enemy : MonoBehaviour
 
       newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed * Time.fixedDeltaTime, 0f);
       canShoot = true;
-    }
-    void Die()
-    {
-        Destroy(gameObject);
     }
 }

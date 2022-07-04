@@ -7,6 +7,8 @@ public class Shot : MonoBehaviour
 
     public float speed;
     public GameObject deathEffect;
+    
+    
 
     private Transform player;
     private Vector2 target;
@@ -14,13 +16,16 @@ public class Shot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+       player = GameObject.FindGameObjectWithTag("Player").transform;
 
         target = new Vector2(player.position.x, player.position.y);
+
+        
     }
 
     void Update()
-    {
+    {  
+
         transform.position = Vector2.MoveTowards(transform.position, player.position, speed * Time.deltaTime);
 
         if(transform.position.x == target.x && transform.position.y == target.y){
@@ -34,6 +39,7 @@ public class Shot : MonoBehaviour
             Die();
         }
     }
+
 
     void Die()
     {

@@ -4,18 +4,14 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float dieTime, damage;
+    public float dieTime, damage, speed;
     public GameObject deathEffect;
+
 
     // Start is called before the first frame update
     void Start()
     {
          StartCoroutine(CountDownTimer());
-    }
-
-    void OnCollisionEnter2D(Collision2D col)
-    {
-      Die();
     }
 
     IEnumerator CountDownTimer()
@@ -25,8 +21,16 @@ public class Bullet : MonoBehaviour
         Die();
     }
 
+ void OnCollisionEnter2D(Collision2D col)
+    {
+     Die();
+    }
+    
+
+
     void Die()
     {
+        Instantiate(deathEffect, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 }    

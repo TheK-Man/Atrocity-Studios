@@ -4,105 +4,126 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public float walkSpeed, range, health, timeBTWShots, shootSpeed;
-    private float distToPlayer;
+    [Header ("Stats")]
+    public float walkSpeed;
+    public float stoppingDistance;
+    public float nearDistance;
+    public float startTimeBtwShots;
+    public float shootSpeed;
+    private float timeBtwShots;
+    public Transform firePoint2;
+    private Vector2 direction;
+    
+    
 
-    public bool mustPatrol;
-    private bool mustTurn, canShoot;
+    [Header ("References")]
+    
+    private Transform player;
+    
+    
 
-    public Rigidbody2D rb;
-    public Transform groundCheckPos;
-    public LayerMask groundLayer;
-    public Collider2D bodyCollider;
-    public Transform player, firePoint2;
-    public GameObject bullet;
+    public int health = 100;
+
     public GameObject deathEffect;
+    public GameObject bullet;
 
-     public void TakeDamage (int damage)
-     {
-      health -= damage;
-      if (health <= 0)
-      {
-        Die();
-      }
-     }
-    // Start is called before the first frame update
-    void Start()
+    public void TakeDamage (int damage)
     {
-        mustPatrol = true;
-        canShoot = true;
-    }
+        health -= damage;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (mustPatrol == true)
-        { 
-            Patrol();
-        }
-
-        distToPlayer = Vector2.Distance(transform.position, player.position);
-
-        if(distToPlayer <= range)
+        if (health <= 0)
         {
-            if(player.position.x > transform.position.x && transform.localScale.x < 0 
-            || player.position.x < transform.position.x && transform.localScale.x > 0)
-            {
-                Flip();
-            }
-
-           
-           
-
-            if(canShoot)
-
-           StartCoroutine(Shoot());
-        }
-        else
-        {
-            mustPatrol = true;
+            Die();
         }
     }
-
-    private void FixedUpdate()
+    void Start ()
     {
-        if (mustPatrol == true)
-        {
-            mustTurn = !Physics2D.OverlapCircle(groundCheckPos.position, 0.1f, groundLayer);
-        }
+        player = GameObject.FindGameObjectWithTag("Player").transform;
+        timeBtwShots = startTimeBtwShots;
     }
 
-    void Patrol()
+    void Update ()
     {
-        if (mustTurn || bodyCollider.IsTouchingLayers(groundLayer))
-        {
-            Flip();
+        
+    
+        //Makes the enemy move
+        if(Vector2.Distance(transform.position, player.position) > nearDistance){
+            transform.position = Vector2.MoveTowards(transform.position, player.position, walkSpeed * Time.deltaTime);
+        } else if(Vector2.Distance(transform.position, player.position) > stoppingDistance){
+            transform.position = Vector2.MoveTowards(transform.position, player.position, walkSpeed * Time.deltaTime);
+        } else if(Vector2.Distance(transform.position, player.position) < stoppingDistance && Vector2.Distance(transform.position, player.position) > nearDistance){
+            transform.position = this.transform.position;
         }
 
-        rb.velocity = new Vector2(walkSpeed * Time.fixedDeltaTime, rb.velocity.y);
+        if(player.position.x > transform.position.x && transform.localScale.x > 0 
+         || player.position.x < transform.position.x && transform.localScale.x < 0)
+        {
+         Flip();
+        }
+
+        
+        
+       
+       
+        
+        
+    
+        //Makes the enemy shoot
+        if(timeBtwShots <= 0){
+        GameObject newBullet = Instantiate(bullet, firePoint2.position, Quaternion.identity);
+        newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * -walkSpeed * Time.fixedDeltaTime, 0f);
+            timeBtwShots = startTimeBtwShots;
+        } else {
+            timeBtwShots -= Time.deltaTime;
+            
+        }
+
+       
+       
+       
+
     }
 
     void Flip()
     {
-        
-        transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
-        walkSpeed *= -1;
-        mustTurn = false;
-    }
+       transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
+       
+       walkSpeed *= 1;
+       
+    } 
 
-    IEnumerator Shoot()
-    {
-      canShoot = false;
+    
+    
+    
+    
 
-      yield return new WaitForSeconds(timeBTWShots);
-      GameObject newBullet = Instantiate(bullet, firePoint2.position, Quaternion.identity);
 
-      newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed * Time.fixedDeltaTime, 0f);
-      canShoot = true;
-    }
-    void Die()
+
+    void Die ()
     {
         Instantiate(deathEffect, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

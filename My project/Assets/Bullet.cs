@@ -21,12 +21,13 @@ public class Bullet : MonoBehaviour
         Die();
     }
 
- void OnCollisionEnter2D(Collision2D col)
-    {
-     Die();
+ void OnTriggerEnter2D(Collider2D other)
+{
+    if(other.CompareTag("Player")){
+        Die();
     }
+}
     
-
 
     void Die()
     {

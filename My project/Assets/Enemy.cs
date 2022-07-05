@@ -89,6 +89,13 @@ public class Enemy : MonoBehaviour
        transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
        
        walkSpeed *= 1;
+       if(Vector2.Distance(transform.position, player.position) > nearDistance){
+    transform.position = Vector2.MoveTowards(transform.position, player.position, walkSpeed * Time.deltaTime);
+} else if(Vector2.Distance(transform.position, player.position) > stoppingDistance){
+    transform.position = Vector2.MoveTowards(transform.position, player.position, walkSpeed * Time.deltaTime);
+} else if(Vector2.Distance(transform.position, player.position) < stoppingDistance && Vector2.Distance(transform.position, player.position) > nearDistance){
+    transform.position = this.transform.position;
+}
        
     } 
 

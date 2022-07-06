@@ -64,6 +64,8 @@ public class Enemy : MonoBehaviour
          Flip();
         }
 
+        
+
     }
 
     void Shoot()
@@ -75,7 +77,7 @@ public class Enemy : MonoBehaviour
      timeBtwShots = startTimeBtwShots;
      } else {
      timeBtwShots -= Time.deltaTime;
-     } 
+     }
 
      if(facingRight){ 
         canShootLeft = false;
@@ -94,6 +96,7 @@ public class Enemy : MonoBehaviour
     {
        facingRight = true;
        canShootLeft = false;
+       
        transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
     
        walkSpeed *= 1;
@@ -103,7 +106,8 @@ public class Enemy : MonoBehaviour
        transform.position = Vector2.MoveTowards(transform.position, player.position, walkSpeed * Time.deltaTime);
      } else if(Vector2.Distance(transform.position, player.position) < stoppingDistance && Vector2.Distance(transform.position, player.position) > nearDistance){
        transform.position = this.transform.position;
-     }  
+     }
+
         
     } 
 

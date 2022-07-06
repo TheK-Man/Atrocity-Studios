@@ -1791,7 +1791,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 2
-  stoppingDistance: 2
+  stoppingDistance: 3
   nearDistance: 5
   startTimeBtwShots: 1
   shootSpeed: 100

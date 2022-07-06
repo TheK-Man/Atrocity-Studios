@@ -13,6 +13,9 @@ public class Enemy : MonoBehaviour
     private float timeBtwShots;
     public Transform firePoint2;
     private Vector2 direction;
+    bool facingRight = false;
+    bool canShootLeft = true;
+
     
     
 
@@ -44,7 +47,7 @@ public class Enemy : MonoBehaviour
 
     void Update ()
     {
-        
+        Shoot();
     
         //Makes the enemy move
         if(Vector2.Distance(transform.position, player.position) > nearDistance){
@@ -54,49 +57,54 @@ public class Enemy : MonoBehaviour
         } else if(Vector2.Distance(transform.position, player.position) < stoppingDistance && Vector2.Distance(transform.position, player.position) > nearDistance){
             transform.position = this.transform.position;
         }
-
+        
         if(player.position.x > transform.position.x && transform.localScale.x > 0 
          || player.position.x < transform.position.x && transform.localScale.x < 0)
         {
          Flip();
         }
 
-        
-        
-       
-       
-        
-        
-    
+    }
+
+    void Shoot()
+    {
         //Makes the enemy shoot
-        if(timeBtwShots <= 0){
-        GameObject newBullet = Instantiate(bullet, firePoint2.position, Quaternion.identity);
-        newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * -walkSpeed * Time.fixedDeltaTime, 0f);
-            timeBtwShots = startTimeBtwShots;
-        } else {
-            timeBtwShots -= Time.deltaTime;
-            
-        }
+     if(canShootLeft && timeBtwShots <= 0){
+     GameObject newBullet = Instantiate(bullet, firePoint2.position, Quaternion.identity);
+     newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * -walkSpeed * Time.fixedDeltaTime, 0f);
+     timeBtwShots = startTimeBtwShots;
+     } else {
+     timeBtwShots -= Time.deltaTime;
+     } 
 
-       
-       
-       
-
+     if(facingRight){ 
+        canShootLeft = false;
+     if(facingRight && timeBtwShots <= 0){
+     GameObject newBullet = Instantiate(bullet, firePoint2.position, Quaternion.identity);
+     newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed * Time.fixedDeltaTime, 0f);
+     timeBtwShots = startTimeBtwShots;
+     } else {
+     timeBtwShots -= Time.deltaTime;
+     } 
+     }
+    
     }
 
     void Flip()
     {
+       facingRight = true;
+       canShootLeft = false;
        transform.localScale = new Vector2(transform.localScale.x * -1, transform.localScale.y);
-       
+    
        walkSpeed *= 1;
        if(Vector2.Distance(transform.position, player.position) > nearDistance){
-    transform.position = Vector2.MoveTowards(transform.position, player.position, walkSpeed * Time.deltaTime);
-} else if(Vector2.Distance(transform.position, player.position) > stoppingDistance){
-    transform.position = Vector2.MoveTowards(transform.position, player.position, walkSpeed * Time.deltaTime);
-} else if(Vector2.Distance(transform.position, player.position) < stoppingDistance && Vector2.Distance(transform.position, player.position) > nearDistance){
-    transform.position = this.transform.position;
-}
-       
+       transform.position = Vector2.MoveTowards(transform.position, player.position, walkSpeed * Time.deltaTime);
+     } else if(Vector2.Distance(transform.position, player.position) > stoppingDistance){
+       transform.position = Vector2.MoveTowards(transform.position, player.position, walkSpeed * Time.deltaTime);
+     } else if(Vector2.Distance(transform.position, player.position) < stoppingDistance && Vector2.Distance(transform.position, player.position) > nearDistance){
+       transform.position = this.transform.position;
+     }  
+        
     } 
 
     

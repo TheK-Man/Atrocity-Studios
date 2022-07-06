@@ -6,12 +6,14 @@ public class Bullet : MonoBehaviour
 {
     public float dieTime, damage, speed;
     public GameObject deathEffect;
+    
 
 
     // Start is called before the first frame update
     void Start()
     {
          StartCoroutine(CountDownTimer());
+         
     }
 
     IEnumerator CountDownTimer()
@@ -21,6 +23,7 @@ public class Bullet : MonoBehaviour
         Die();
     }
 
+    
  void OnTriggerEnter2D(Collider2D other)
 {
     if(other.CompareTag("Player")){

@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
     [Header ("References")]
     
     private Transform player;
+    private Transform enemy;
     
     
 
@@ -58,10 +59,19 @@ public class Enemy : MonoBehaviour
             transform.position = this.transform.position;
         }
         
+        
+
         if(player.position.x > transform.position.x && transform.localScale.x > 0 
          || player.position.x < transform.position.x && transform.localScale.x < 0)
         {
          Flip();
+        }
+
+                
+        if(player.position.x < transform.position.x)
+        {
+            facingRight = false;
+            canShootLeft = true;
         }
 
         
@@ -85,6 +95,7 @@ public class Enemy : MonoBehaviour
      GameObject newBullet = Instantiate(bullet, firePoint2.position, Quaternion.identity);
      newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * walkSpeed * Time.fixedDeltaTime, 0f);
      timeBtwShots = startTimeBtwShots;
+     
      } else {
      timeBtwShots -= Time.deltaTime;
      } 
